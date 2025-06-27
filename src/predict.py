@@ -3,12 +3,8 @@ This file contains the Predictor class, which is used to run predictions on the
 Whisper model. It is based on the Predictor class from the original Whisper
 repository, with some modifications to make it work with the RP platform.
 """
-
 import gc
 import threading
-from concurrent.futures import (
-    ThreadPoolExecutor,
-)  # Still needed for transcribe potentially?
 import numpy as np
 
 from runpod.serverless.utils import rp_cuda
@@ -19,13 +15,8 @@ from faster_whisper.utils import format_timestamp
 # Define available models (for validation)
 AVAILABLE_MODELS = {
     "tiny",
-    "base",
-    "small",
-    "medium",
-    "large-v1",
     "large-v2",
     "large-v3",
-    "turbo",
 }
 
 

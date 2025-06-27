@@ -6,14 +6,16 @@ rp_debugger:
 The handler must be called with --rp_debugger flag to enable it.
 """
 import base64
+import subprocess
 import tempfile
+from pathlib import Path
 
+from pyannote.audio import Pipeline
 from rp_schema import INPUT_VALIDATIONS
-from runpod.serverless.utils import download_files_from_urls, rp_cleanup, rp_cuda, rp_debugger
+from runpod.serverless.utils import download_files_from_urls, rp_cleanup, rp_debugger
 from runpod.serverless.utils.rp_validator import validate
 import runpod
 import predict
-import wespeaker
 
 
 MODEL = predict.Predictor()
@@ -36,14 +38,36 @@ def base64_to_tempfile(base64_file: str) -> str:
     return temp_file.name
 
 
-def diarize(fpath):
-    resp = {'segments': []}
-    model = wespeaker.load_model('chinese')
-    if rp_cuda.is_available():
-        model.set_device('cuda')
+def _to_wav(fpath):
+    path = Path(fpath)
+    new_name = path.name.split('.')[0] + '.wav'
+    new_path = path.parent / new_name
+    subprocess.run([
+        'ffmpeg',
+        '-i', str(fpath),
+        '-ar', '16000',
+        '-ac', '1',
+        '-c:a', 'pcm_s16le',
+        str(new_path)
+    ])
+    return new_path
 
-    for s in model.diarize(fpath):
-        resp['segments'].append({'start': s[1], 'end': s[2], 'speaker': s[3]})
+
+def diarize(fpath):
+    if not str(fpath).endswith('.wav'):
+        fpath = _to_wav(fpath)
+
+    resp = {'segments': []}
+    pipeline = Pipeline.from_pretrained('src/config.yaml')
+    dia = pipeline(fpath)
+
+    speakers = {}
+    for turn, _, speaker in dia.itertracks(yield_label=True):
+        if speaker not in speakers:
+            speakers[speaker] = len(speakers)  # assign ordered index
+
+        segdata = {'start': turn.start, 'end': turn.end, 'speaker': speakers[speaker]}
+        resp['segments'].append(segdata)
 
     return resp
 
