@@ -43,8 +43,9 @@ COPY builder/fetch_models.py /fetch_models.py
 RUN python /fetch_models.py && \
     rm /fetch_models.py
 
-# Copy handler and other code
+# Copy handler, models and other code
 COPY src .
+COPY models .
 
 # test input that will be used when the container runs outside of runpod
 COPY test_input.json .
