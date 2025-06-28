@@ -58,7 +58,8 @@ def diarize(fpath):
         fpath = _to_wav(fpath)
 
     resp = {'segments': []}
-    pipeline = Pipeline.from_pretrained('src/config.yaml')
+    confpath = Path(__file__).resolve().parent / 'config.yaml'
+    pipeline = Pipeline.from_pretrained(str(confpath))
     dia = pipeline(fpath)
 
     speakers = {}
