@@ -57,7 +57,7 @@ def _to_wav(fpath):
 
 
 def diarize(fpath):
-    if not str(fpath).endswith('.wav'):
+    if not str(fpath).lower().endswith('.wav'):
         fpath = _to_wav(fpath)
 
     resp = {'segments': []}
@@ -134,7 +134,8 @@ def run_whisper_job(job):
             no_repeat_ngram_size=job_input["no_repeat_ngram_size"],
         )
 
-    resp['diarization'] = diarize(audio_input)
+    if job_input['diarize']:
+        resp['diarization'] = diarize(audio_input)
 
     with rp_debugger.LineTimer('cleanup_step'):
         rp_cleanup.clean(['input_objects'])

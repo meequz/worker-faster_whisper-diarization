@@ -114,4 +114,9 @@ INPUT_VALIDATIONS = {
         'required': False,
         'default': 0
     },
+    'diarize': {
+        'type': bool,
+        'required': False,
+        'default': True
+    },
 }

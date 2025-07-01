@@ -48,6 +48,7 @@
 | `word_timestamps`                   | bool  | If True, include word timestamps in the output. Default: False                                                                                                         |
 | `repetition_penalty`                | float | To penalize the score of previously generated tokens (set > 1 to penalize). Default: 1.0                                                                               |
 | `no_repeat_ngram_size`              | int   | Prevent repetitions of ngrams with this size. Default: 0                                                                                                               |
+| `diarize`                           | bool  | Perform diarization or not. Default: True                                                                                                               |
 
 ### Example
 
