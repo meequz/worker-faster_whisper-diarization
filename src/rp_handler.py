@@ -16,7 +16,10 @@ from runpod.serverless.utils import download_files_from_urls, rp_cleanup, rp_deb
 from runpod.serverless.utils.rp_validator import validate
 import runpod
 import predict
+import numpy as np
 
+
+np.NAN = np.nan
 
 MODEL = predict.Predictor()
 MODEL.setup()
@@ -58,8 +61,7 @@ def diarize(fpath):
         fpath = _to_wav(fpath)
 
     resp = {'segments': []}
-    confpath = Path(__file__).resolve().parent / 'config.yaml'
-    pipeline = Pipeline.from_pretrained(str(confpath))
+    pipeline = Pipeline.from_pretrained('config.yaml')
     dia = pipeline(fpath)
 
     speakers = {}
