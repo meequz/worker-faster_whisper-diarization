@@ -16,6 +16,7 @@ from runpod.serverless.utils import download_files_from_urls, rp_cleanup, rp_deb
 from runpod.serverless.utils.rp_validator import validate
 import runpod
 import predict
+import torch
 import numpy as np
 
 
@@ -62,6 +63,7 @@ def diarize(fpath):
 
     resp = {'segments': []}
     pipeline = Pipeline.from_pretrained('config.yaml')
+    pipeline.to(torch.device('cuda'))
     dia = pipeline(fpath)
 
     speakers = {}
