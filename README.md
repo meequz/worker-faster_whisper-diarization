@@ -1,6 +1,6 @@
 ![Faster Whisper Logo](https://5ccaof7hvfzuzf4p.public.blob.vercel-storage.com/banner-pjbGKw0buxbWGhMVC165Gf9qgqWo7I.jpeg)
 
-A fork of [Runpod's official Faster Whisper serverless worker](https://github.com/runpod-workers/worker-faster_whisper) with [pyannote](https://github.com/pyannote/pyannote-audio)-fueled diarization. `diarize` input flag added to enable/disable diarization. When creating an endpoint, it's required to set CUDA version to 12.6 and all the numbers above, otherwise it may not work.
+A fork of [Runpod's official Faster Whisper serverless worker](https://github.com/runpod-workers/worker-faster_whisper) with [pyannote](https://github.com/pyannote/pyannote-audio)-fueled diarization. `diarize` input flag added to enable/disable diarization. When creating an endpoint, it's required to set CUDA version to 12.6 and all the numbers above (under 'Advanced' tab), otherwise it may not work.
 
 [Faster Whisper](https://github.com/guillaumekln/faster-whisper) is designed to process audio files using various Whisper models, with options for transcription formatting, language translation and more.
 
@@ -13,15 +13,8 @@ A fork of [Runpod's official Faster Whisper serverless worker](https://github.co
 ## Models
 
 - tiny
-- base
-- small
-- medium
-- large-v1
 - large-v2
 - large-v3
-- distil-large-v2
-- distil-large-v3
-- turbo
 
 ## Input
 
@@ -60,7 +53,7 @@ The following inputs can be used for testing the model:
 {
   "input": {
     "audio": "https://github.com/runpod-workers/sample-inputs/raw/main/audio/gettysburg.wav",
-    "model": "turbo"
+    "model": "large-v2"
   }
 }
 ```
@@ -83,11 +76,20 @@ producing an output like this:
       "no_speech_prob": 0.1453857421875
     }
   ],
+  "diarization": [
+    "segments": [
+      {
+        "start": 0.11,
+        "end": 3.11,
+        "speaker": 0
+      }
+    ]
+  ],
   "detected_language": "en",
   "transcription": "Hello and welcome!",
   "translation": null,
   "device": "cuda",
-  "model": "turbo",
+  "model": "large-v2",
   "translation_time": 0.3796223163604736
 }
 ```
