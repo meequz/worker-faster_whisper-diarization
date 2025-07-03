@@ -76,7 +76,7 @@ producing an output like this:
       "no_speech_prob": 0.1453857421875
     }
   ],
-  "diarization": [
+  "diarization": {
     "segments": [
       {
         "start": 0.11,
@@ -84,7 +84,7 @@ producing an output like this:
         "speaker": 0
       }
     ]
-  ],
+  },
   "detected_language": "en",
   "transcription": "Hello and welcome!",
   "translation": null,
