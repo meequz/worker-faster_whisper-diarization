@@ -41,3 +41,4 @@ COPY test_input.json .
 
 # Set default command
 CMD python3 -u /rp_handler.py
+
