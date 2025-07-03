@@ -24,13 +24,12 @@ RUN apt-get update -y && \
 # Install Python dependencies
 COPY builder/requirements.txt /requirements.txt
 RUN --mount=type=cache,target=/root/.cache/pip \
-    pip install --upgrade pip && \
-    pip install huggingface_hub[hf_xet] && \
-    pip install -r /requirements.txt --no-cache-dir
+    pip install --break-system-packages huggingface_hub[hf_xet] && \
+    pip install -r /requirements.txt --no-cache-dir --break-system-packages
 
 # Copy and run script to fetch models
 COPY builder/fetch_models.py /fetch_models.py
-RUN python /fetch_models.py && \
+RUN python3 /fetch_models.py && \
     rm /fetch_models.py
 
 # Copy handler, models and other code
@@ -41,4 +40,4 @@ COPY models models/
 COPY test_input.json .
 
 # Set default command
-CMD python -u /rp_handler.py
+CMD python3 -u /rp_handler.py
