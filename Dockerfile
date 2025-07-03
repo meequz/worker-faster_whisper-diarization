@@ -16,17 +16,7 @@ WORKDIR /
 # Update and upgrade the system packages
 RUN apt-get update -y && \
     apt-get upgrade -y && \
-    apt-get install --yes --no-install-recommends sudo ca-certificates git wget curl bash libgl1 libx11-6 software-properties-common ffmpeg build-essential -y &&\
-    apt-get autoremove -y && \
-    apt-get clean -y && \
-    rm -rf /var/lib/apt/lists/*
-
-# Install Python 3.10
-RUN apt-get update -y && \
-    apt-get install python3.10 python3.10-dev python3.10-venv python3-pip -y --no-install-recommends && \
-    ln -s /usr/bin/python3.10 /usr/bin/python && \
-    rm -f /usr/bin/python3 && \
-    ln -s /usr/bin/python3.10 /usr/bin/python3 && \
+    apt-get install --yes --no-install-recommends sudo ca-certificates git wget curl bash libgl1 libx11-6 software-properties-common ffmpeg build-essential python3-pip python3-venv -y &&\
     apt-get autoremove -y && \
     apt-get clean -y && \
     rm -rf /var/lib/apt/lists/*
